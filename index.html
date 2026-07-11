@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Генератор Договоров</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/assets/index-CFGW8Vcz.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-JnZ4kjir.css">
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1>Генерация Договора</h1>
+      <p>Заполните данные для создания документа в формате .docx</p>
+    </header>
+
+    <main>
+      <form id="contract-form" class="glass-panel">
+        <div class="form-grid">
+          <div class="input-group">
+            <label for="contract-number">№ договора</label>
+            <input type="text" id="contract-number" placeholder="09/02" required>
+          </div>
+
+          <div class="input-group">
+            <label for="city">Город</label>
+            <input type="text" id="city" placeholder="г. Лида" required>
+          </div>
+
+          <div class="input-group">
+            <label for="date">Дата</label>
+            <input type="text" id="date" placeholder="09.02.2026" required>
+          </div>
+          
+          <div class="input-group">
+            <label for="executor">Исполнитель (ФИО)</label>
+            <input type="text" id="executor" placeholder="Иванова Анжелика Александровна" required>
+          </div>
+
+          <div class="input-group">
+            <label for="instagram">Ссылка на Instagram</label>
+            <input type="text" id="instagram" placeholder="https://instagram.com/username" required>
+          </div>
+
+          <div class="input-group">
+            <label for="unp">УНП</label>
+            <input type="text" id="unp" placeholder="ЕЕ6608158" required>
+          </div>
+
+          <div class="input-group">
+            <label for="passport">Паспорт</label>
+            <input type="text" id="passport" placeholder="Серия, номер, кем и когда выдан" required>
+          </div>
+
+          <div class="input-group">
+            <label for="address">Адрес проживания</label>
+            <input type="text" id="address" placeholder="г. Лида, Микрорайон 17, дом 17, кв 84" required>
+          </div>
+
+          <div class="input-group">
+            <label for="cost">Стоимость услуг</label>
+            <input type="text" id="cost" placeholder="350 (триста пятьдесят)" required>
+          </div>
+          
+          <div class="input-group">
+            <label for="deadline">Сроки исполнения</label>
+            <input type="text" id="deadline" placeholder="до 09.02.2026" required>
+          </div>
+
+          <div class="input-group">
+            <label for="bank-account">Расчётный счёт (Р/С)</label>
+            <input type="text" id="bank-account" placeholder="BY49AKBB30140001207433210000" required>
+          </div>
+
+          <div class="input-group">
+            <label for="bank-name">Название банка и отделение</label>
+            <input type="text" id="bank-name" placeholder='ОАО "АСБ Беларусбанк" №312/3092' required>
+          </div>
+
+          <div class="input-group">
+            <label for="bank-code">Код банка</label>
+            <input type="text" id="bank-code" placeholder="AKBBBY2X" required>
+          </div>
+
+        </div>
+
+        <button type="submit" class="submit-btn">
+          <span>Сгенерировать .docx</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+        </button>
+      </form>
+    </main>
+  </div>
+
+</body>
+</html>
