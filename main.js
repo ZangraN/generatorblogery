@@ -1,5 +1,5 @@
-import { Document, Packer, Paragraph, TextRun, AlignmentType, HeadingLevel, Table, TableRow, TableCell, WidthType, BorderStyle, TabStopType, TabStopPosition } from "docx";
-import { saveAs } from "file-saver";
+import { Document, Packer, Paragraph, TextRun, AlignmentType, HeadingLevel, Table, TableRow, TableCell, WidthType, BorderStyle, TabStopType, TabStopPosition } from "https://esm.sh/docx@9.7.1";
+import { saveAs } from "https://esm.sh/file-saver@2.0.5";
 
 document.getElementById('contract-form').addEventListener('submit', async (e) => {
   e.preventDefault();
