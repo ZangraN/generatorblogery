@@ -1,6 +1,66 @@
 import { Document, Packer, Paragraph, TextRun, AlignmentType, HeadingLevel, Table, TableRow, TableCell, WidthType, BorderStyle, TabStopType, TabStopPosition } from "docx";
 import { saveAs } from "file-saver";
 
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJnmChTT2x_6RtA9XHN_wsrxuhwjwj1FtQ5S7r9KpaSNhNYHXDybpUvLgLdKKBSBU2iQ/exec';
+
+let bloggers = [];
+
+async function loadBloggers() {
+  try {
+    const response = await fetch(GOOGLE_SCRIPT_URL);
+    bloggers = await response.json();
+  } catch (error) {
+    console.error('Ошибка загрузки блогеров:', error);
+  }
+}
+loadBloggers();
+
+const executorInput = document.getElementById('executor');
+const autocompleteList = document.getElementById('autocomplete-list');
+
+executorInput.addEventListener('input', function() {
+  const val = this.value;
+  autocompleteList.innerHTML = '';
+  if (!val) {
+    autocompleteList.style.display = 'none';
+    return;
+  }
+  
+  let matchCount = 0;
+  for (let i = 0; i < bloggers.length; i++) {
+    const b = bloggers[i];
+    if (b.executor.toLowerCase().includes(val.toLowerCase())) {
+      const item = document.createElement('div');
+      item.className = 'autocomplete-item';
+      item.innerHTML = `<strong>${b.executor}</strong> (${b.city})`;
+      
+      item.addEventListener('click', function() {
+        executorInput.value = b.executor;
+        document.getElementById('city').value = b.city || '';
+        document.getElementById('unp').value = b.unp || '';
+        document.getElementById('passport').value = b.passport || '';
+        document.getElementById('address').value = b.address || '';
+        document.getElementById('bank-account').value = b.bankAccount || '';
+        document.getElementById('bank-name').value = b.bankName || '';
+        document.getElementById('bank-code').value = b.bankCode || '';
+        document.getElementById('instagram').value = b.instagram || '';
+        
+        autocompleteList.style.display = 'none';
+      });
+      autocompleteList.appendChild(item);
+      matchCount++;
+    }
+  }
+  autocompleteList.style.display = matchCount > 0 ? 'block' : 'none';
+});
+
+document.addEventListener('click', function(e) {
+  if (e.target !== executorInput && e.target !== autocompleteList) {
+    autocompleteList.style.display = 'none';
+  }
+});
+
+
 document.getElementById('contract-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   
@@ -507,6 +567,28 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
 
   Packer.toBlob(doc).then((blob) => {
     saveAs(blob, `Договор_№${contractNumber.replace(/\//g, '_')}_${executor}.docx`);
+    
+    // Сохраняем в Google Таблицу
+    saveBloggerToSheets({
+      executor, city, unp, passport, address, bankAccount, bankName, bankCode, instagram
+    });
   });
 });
+
+function saveBloggerToSheets(data) {
+  fetch(GOOGLE_SCRIPT_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain;charset=utf-8',
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(res => {
+    if (res.status === 'success') {
+      bloggers.push(data); // обновляем локально чтобы сразу было доступно в поиске
+    }
+  })
+  .catch(err => console.error('Ошибка сохранения:', err));
+}
 

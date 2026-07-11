@@ -32,9 +32,10 @@
             <input type="text" id="date" placeholder="09.02.2026" required>
           </div>
           
-          <div class="input-group">
+          <div class="input-group autocomplete">
             <label for="executor">Исполнитель (ФИО)</label>
-            <input type="text" id="executor" placeholder="Иванова Анжелика Александровна" required>
+            <input type="text" id="executor" placeholder="Иванова Анжелика Александровна" required autocomplete="off">
+            <div id="autocomplete-list" class="autocomplete-items"></div>
           </div>
 
           <div class="input-group">
