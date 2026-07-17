@@ -36,14 +36,12 @@ executorInput.addEventListener('input', function() {
       
       item.addEventListener('click', function() {
         executorInput.value = b.executor;
-        document.getElementById('city').value = b.city || '';
         document.getElementById('unp').value = b.unp || '';
         document.getElementById('passport').value = b.passport || '';
         document.getElementById('address').value = b.address || '';
         document.getElementById('bank-account').value = b.bankAccount || '';
         document.getElementById('bank-name').value = b.bankName || '';
         document.getElementById('bank-code').value = b.bankCode || '';
-        document.getElementById('instagram').value = b.instagram || '';
         
         autocompleteList.style.display = 'none';
       });
@@ -65,15 +63,15 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
   e.preventDefault();
   
   const contractNumber = document.getElementById('contract-number').value;
-  const city = document.getElementById('city').value;
   const date = document.getElementById('date').value;
   const executor = document.getElementById('executor').value;
   const unp = document.getElementById('unp').value;
   const passport = document.getElementById('passport').value;
   const address = document.getElementById('address').value;
   const cost = document.getElementById('cost').value;
-  const deadline = document.getElementById('deadline').value;
-  const instagram = document.getElementById('instagram').value;
+  const startDate = document.getElementById('start-date').value;
+  const endDate = document.getElementById('end-date').value;
+  const actDate = document.getElementById('act-date').value;
   const bankAccount = document.getElementById('bank-account').value;
   const bankName = document.getElementById('bank-name').value;
   const bankCode = document.getElementById('bank-code').value;
@@ -87,7 +85,7 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
     }
   }
 
-  const doc = new Document({
+    const doc = new Document({
     creator: "Contract Generator",
     title: `Договор № ${contractNumber}`,
     styles: {
@@ -95,7 +93,7 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
             document: {
                 run: {
                     font: "Times New Roman",
-                    size: 28,
+                    size: 24, // 12pt (half-points)
                 },
                 paragraph: {
                     alignment: AlignmentType.JUSTIFIED,
@@ -121,11 +119,6 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
             alignment: AlignmentType.CENTER,
             spacing: { after: 120 }
           }),
-          new Paragraph({
-            children: [new TextRun({ text: "на выполнение работ", size: 28 })],
-            alignment: AlignmentType.CENTER,
-            spacing: { after: 400 }
-          }),
           
           new Paragraph({
             tabStops: [
@@ -135,9 +128,9 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
                 },
             ],
             children: [
-              new TextRun({ text: `г. ${city}`, size: 28 }),
+              new TextRun({ text: `Место заключения: г.Минск`, size: 24 }),
               new TextRun("\t"),
-              new TextRun({ text: `${date} г.`, size: 28 })
+              new TextRun({ text: `Дата заключения: ${date} г.`, size: 24 })
             ],
             spacing: { after: 400 }
           }),
@@ -145,253 +138,334 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
           new Paragraph({
             children: [
               new TextRun({ text: `${executor}`, bold: true }),
-              new TextRun(`, именуемая в дальнейшем «Исполнитель», `),
-              new TextRun({ text: `УНП: ${unp}`, bold: true }),
-              new TextRun(` действующий как самозанятая с уплатой налога на профессиональный доход, проживающий по адресу: `),
+              new TextRun(`, именуемый в дальнейшем «Исполнитель», УНП: `),
+              new TextRun({ text: `${unp}`, bold: true }),
+              new TextRun(` действующий как самозанятый с уплатой налога на профессиональный доход, проживающий по адресу: `),
               new TextRun({ text: `${address}`, bold: true }),
-              new TextRun(`, Паспорт: `),
-              new TextRun({ text: `${passport}`, bold: true }),
               new TextRun(` с одной стороны, и `),
-              new TextRun({ text: `Общество с ограниченной ответственностью «Бутик-Инвест»`, bold: true }),
-              new TextRun(`, УНП 592024719 именуемое в дальнейшем «Заказчик», в лице начальника отдела маркетинга Каспер Ольги Юрьевны, действует на основании Доверенности от 01.10.2025 № 54, именуемое далее «Заказчик», заключили настоящий Договор о нижеследующем:`),
+              new TextRun({ text: `ООО «Бутик-Инвест»`, bold: true }),
+              new TextRun(`, именуемое в дальнейшем «Заказчик», в лице начальника отдела маркетинга Каспер Ольги Юрьевны, действующего на основании Доверенности от 01.10.2025 № 54, с другой стороны, а вместе именуемые «Стороны», заключили настоящий Договор о нижеследующем:`),
             ],
-            spacing: { after: 400 },
+            spacing: { after: 200 },
             indent: { firstLine: 720 }
           }),
 
           new Paragraph({
-            children: [new TextRun({ text: "1. Предмет договора", size: 28 })],
+            children: [new TextRun({ text: "1. ПРЕДМЕТ ДОГОВОРА", bold: true, size: 28 })],
             alignment: AlignmentType.CENTER,
             spacing: { before: 200, after: 200 }
           }),
           
           new Paragraph({
-            children: [new TextRun({ text: "1.1. Заказчик поручает, а Исполнитель принимает на себя обязательства по выполнению следующих работ:", size: 28 })],
-            spacing: { after: 120 }
-          }),
-          new Paragraph({
-            children: [new TextRun({ text: "- размещение рекламной информации о ООО «Бутик-Инвест», через сеть Интернет в аккаунте в социальной сети Instagram (Инстаграм)", size: 28 })],
+            children: [new TextRun({ text: "1.1. Заказчик поручает, а Исполнитель берет на себя обязательства оказать комплекс маркетинговых и рекламных услуг и услуг по съемке и монтажу видео-материалов." })],
             spacing: { after: 120 },
             indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: `Ссылка на аккаунт ${instagram}`, size: 28 })],
+            children: [new TextRun({ text: "1.2. Предусмотренный п.1.1 настоящего договора объем и количество выполняемых работ (оказываемых услуг) по настоящему договору, может быть изменен сторонами посредствам подписания дополнительного соглашения к договору или указания окончательного объема (количества) и периода оказания услуг в соответствующих Актах выполненных работ (оказанных услуг), которые являются его неотъемлемой частью." })],
             spacing: { after: 200 },
             indent: { left: 720 }
-          }),
-          new Paragraph({
-            children: [new TextRun({ text: `1.2. Сроки оказания услуг – ${deadline}`, size: 28 })],
-            spacing: { after: 200 },
-            indent: { left: 720 }
-          }),
-          new Paragraph({
-            children: [new TextRun({ text: "1.3. Результаты оказанных услуг передаются Заказчику через сеть Интернет. Заказчик обязуется принять указанные услуги и оплатить их в сроки, указанные в Договоре.", size: 28 })],
-            spacing: { after: 400 }
           }),
 
           new Paragraph({
-            children: [new TextRun({ text: "2. Обязанности сторон", size: 28 })],
+            children: [new TextRun({ text: "2. ПОРЯДОК ОКАЗАНИЯ УСЛУГ", bold: true, size: 28 })],
             alignment: AlignmentType.CENTER,
             spacing: { before: 200, after: 200 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "2.1. Исполнитель обязуется:", size: 28 })],
+            children: [new TextRun({ text: "2.1. Исполнитель оказывает услуги самостоятельно без привлечения 3-их лиц;" })],
             spacing: { after: 120 },
             indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "2.1.1. Выполнять порученные ему задания наилучшим образом, соответственно в профессиональном и коммерческом отношениях.", size: 28 })],
+            children: [new TextRun({ text: "2.2. Для оказания услуг используется сеть Интернет;" })],
             spacing: { after: 120 },
-            indent: { left: 1080 }
+            indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "2.1.2. Исполнитель гарантирует соблюдение конфиденциальности и принимает все возможные меры по сохранению и неразглашению сведений, составляющих коммерческую тайну и полученных в результате исполнения настоящего договора.", size: 28 })],
+            children: [new TextRun({ text: "2.3. Результаты оказанных услуг передаются через сеть Интернет;" })],
             spacing: { after: 120 },
-            indent: { left: 1080 }
+            indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "2.1.3. Исполнитель высылает подготовленный материал на согласование заказчику до публикации рекламных материалов.", size: 28 })],
+            children: [new TextRun({ text: "2.4. Исполнитель сам определяет время, место, режим и график работы при оказании услуг по данному договору;" })],
             spacing: { after: 120 },
-            indent: { left: 1080 }
+            indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "2.1.4. Исполнитель гарантирует, что на момент оказания услуг по настоящему Договору он включен в РЕЕСТР рекламораспространителей и вправе оказывать Услуги по размещению (распространению) рекламы.", size: 28 })],
+            children: [new TextRun({ text: "2.5. Деятельность исполнителя осуществляется вне места нахождения заказчика (его филиала, иного обособленного структурного подразделения), территории или объекта, находящихся под контролем заказчика;" })],
+            spacing: { after: 120 },
+            indent: { left: 720 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "2.6. Оказание услуг осуществляется без заключения трудового договора." })],
             spacing: { after: 200 },
-            indent: { left: 1080 }
-          }),
-          new Paragraph({
-            children: [new TextRun({ text: "2.2. Заказчик обязуется:", size: 28 })],
-            spacing: { after: 120 },
             indent: { left: 720 }
-          }),
-          new Paragraph({
-            children: [new TextRun({ text: "2.2.1. Предоставить информацию, необходимую для выполнения работ Исполнителем;", size: 28 })],
-            spacing: { after: 120 },
-            indent: { left: 1080 }
-          }),
-          new Paragraph({
-            children: [new TextRun({ text: "2.2.2. Утвердить результаты работ в течение 5 рабочих дней с момента предоставления их Исполнителем. В случае мотивированного отказа от утверждения, сторонами составляется акт с перечнем доработок и сроком их выполнения;", size: 28 })],
-            spacing: { after: 120 },
-            indent: { left: 1080 }
-          }),
-          new Paragraph({
-            children: [new TextRun({ text: "2.2.3. Своевременно оплатить работу Исполнителя.", size: 28 })],
-            spacing: { after: 400 },
-            indent: { left: 1080 }
           }),
 
           new Paragraph({
-            children: [new TextRun({ text: "3. Стоимость работ и порядок расчетов", size: 28 })],
+            children: [new TextRun({ text: "3. СТОИМОСТЬ УСЛУГ И ПОРЯДОК РАСЧЕТОВ", bold: true, size: 28 })],
             alignment: AlignmentType.CENTER,
             spacing: { before: 200, after: 200 }
           }),
           new Paragraph({
             children: [
-              new TextRun({ text: "3.1. Общая стоимость работ по настоящему Договору составляет: ", size: 28 }),
-              new TextRun({ text: `${cost} белорусских рублей 00 копеек. Без НДС.`, bold: true, size: 28 })
+              new TextRun({ text: `3.1. Стоимость услуг составляет ${cost} белорусских рублей в период с ${startDate} до ${endDate}.` })
             ],
             spacing: { after: 120 },
             indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "3.2. Оплата производится в течение 7-и банковских дней после подписания настоящего Договора.", size: 28 })],
-            spacing: { after: 400 },
+            children: [new TextRun({ text: "3.2. Оплата производится путем перечисления Заказчиком денежных средств на расчетный счет Исполнителя, указанном в реквизитах." })],
+            spacing: { after: 120 },
+            indent: { left: 720 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "3.3. Оплата услуг по настоящему договору осуществляется Заказчиком на 5-й рабочий день следующий после подписания акта выполненных работ." })],
+            spacing: { after: 120 },
+            indent: { left: 720 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "3.4. Валюта платежа – белорусский рубль." })],
+            spacing: { after: 200 },
             indent: { left: 720 }
           }),
 
           new Paragraph({
-            children: [new TextRun({ text: "4. Порядок сдачи-приемки работ", size: 28 })],
+            children: [new TextRun({ text: "4. СРОК ДЕЙСТВИЯ ДОГОВОРА", bold: true, size: 28 })],
             alignment: AlignmentType.CENTER,
             spacing: { before: 200, after: 200 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "4.1. Приемка работ по договору осуществляется путем подписания сторонами акта сдачи-приемки работ. Датой акта приема-передачи считается дата подписания акта Заказчиком. До обмена оригиналами стороны признают юридическую силу подписанных документов по факсимильной связи.", size: 28 })],
-            spacing: { after: 400 },
+            children: [new TextRun({ text: "4.1. Настоящий Договор вступает в силу с даты его подписания и действует до окончания всех обязательств Сторонами. Если ни одна из сторон не изъявила намерение о расторжении договора, то он по умолчанию продлевается на тех же условиях." })],
+            spacing: { after: 120 },
+            indent: { left: 720 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "4.2. Договор, может быть расторгнут в любое время по требованию или инициативе одной из сторон договора, с даты, указанной в письменном уведомлении, направленном другой, стороне." })],
+            spacing: { after: 120 },
+            indent: { left: 720 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "4.3. Настоящий Договор может быть изменен и/или дополнен только документом, составленным в письменной форме, подписанным Сторонами." })],
+            spacing: { after: 200 },
             indent: { left: 720 }
           }),
 
           new Paragraph({
-            children: [new TextRun({ text: "5. Передача Авторских прав", size: 28 })],
+            children: [new TextRun({ text: "5. ПРАВА И ОБЯЗАННОСТИ СТОРОН", bold: true, size: 28 })],
             alignment: AlignmentType.CENTER,
             spacing: { before: 200, after: 200 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "5.1. Объекты – все результаты деятельности Исполнителя по настоящему договору, выраженные в любой форме, включая, но не ограничиваясь этим, все документы, проекты, тексты, рисунки, дизайны, фотографии, базы данных являющиеся объектами авторского права, указанные в Приложениях к настоящему договору и/или в актах сдачи – приемки работ.", size: 28 })],
+            children: [new TextRun({ text: "5.1. Заказчик обязуется:", bold: true })],
             spacing: { after: 120 },
             indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "5.2. Исполнитель обязуется передать в собственность Заказчику все исключительные имущественные авторские права на разработанную продукцию согласно п. 1.1. настоящего Договора.", size: 28 })],
+            children: [new TextRun({ text: "5.1.1. Своевременно производить оплату услуг Исполнителя в соответствии с разделом 3 настоящего договора;" })],
+            spacing: { after: 120 },
+            indent: { left: 1080 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "5.1.2. Своевременно оформлять и передавать Исполнителю необходимые документы Акты выполненных работ (оказанных услуг) и соответствующую информацию и сведения, необходимые для надлежащего исполнения Договора;" })],
+            spacing: { after: 120 },
+            indent: { left: 1080 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "5.1.3. Определить ответственное лицо для оперативного взаимодействия с контактным лицом/лицами Исполнителя." })],
+            spacing: { after: 200 },
+            indent: { left: 1080 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "5.2. Заказчик имеет право:", bold: true })],
             spacing: { after: 120 },
             indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "5.3. Вознаграждение за уступку авторских прав входит в стоимость работ Исполнителя, оговоренных в настоящем Договоре.", size: 28 })],
+            children: [new TextRun({ text: "5.2.1. Получать от Исполнителя информацию о ходе исполнения Договора." })],
+            spacing: { after: 120 },
+            indent: { left: 1080 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "5.2.2. Отказаться от услуг, оказываемых Исполнителем, в случаях и порядке, установленных настоящим договором и законодательством Республики Беларусь." })],
+            spacing: { after: 120 },
+            indent: { left: 1080 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "5.2.3. В связи с тем, что по оказываемым услугам, заказчик может использовать результаты данных услуг по мере их осуществления в течение срока действия договора, заключенного исполнителем и заказчиком в письменной форме, в котором предусмотрено оформление первичного учетного документа, подтверждающего оказание этой услуги, единолично, и стоимость этой услуги, приходящаяся на период ее оказания в календарном месяце, может быть достоверно определена, установить, что первичный учетный документ, подтверждающий совершение хозяйственной операции между Заказчиком и Исполнителем, может быть составлен участником хозяйственной операции единолично." })],
+            spacing: { after: 200 },
+            indent: { left: 1080 }
+          }),
+          
+          new Paragraph({
+            children: [new TextRun({ text: "5.3. Исполнитель обязан:", bold: true })],
             spacing: { after: 120 },
             indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "5.4. Авторские права считаются переданными в момент подписания акта сдачи – приемки работ.", size: 28 })],
+            children: [new TextRun({ text: "5.3.1. Перед началом работ подтвердить статус плательщика НПД;" })],
             spacing: { after: 120 },
-            indent: { left: 720 }
+            indent: { left: 1080 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "5.5. Исполнитель гарантирует Заказчику, что все Объекты, Права на которые Исполнитель передает Заказчику, не являются предметом авторских прав третьих лиц, и Исполнитель имеет все права для осуществления такой передачи.", size: 28 })],
-            spacing: { after: 400 },
-            indent: { left: 720 }
+            children: [new TextRun({ text: "5.3.2. В течении 1-го рабочего дня уведомлять заказчика об изменении статуса плательщика НПД;" })],
+            spacing: { after: 120 },
+            indent: { left: 1080 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "5.3.3. Оказать услуги в объеме, порядке и сроки, определяемые Договором и согласованные Сторонами в Договоре;" })],
+            spacing: { after: 120 },
+            indent: { left: 1080 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "5.3.4. В течение 5 (Пяти) рабочих дней с даты окончания каждого отчетного периода, предоставлять Заказчику Акт выполненных работ (оказанных услуг)." })],
+            spacing: { after: 200 },
+            indent: { left: 1080 }
           }),
 
           new Paragraph({
-            children: [new TextRun({ text: "6. Ответственность сторон", size: 28 })],
+            children: [new TextRun({ text: "5.4. Исполнитель имеет право:", bold: true })],
+            spacing: { after: 120 },
+            indent: { left: 720 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "5.4.1. Требовать от Заказчика предоставления информации, необходимой для надлежащего оказания Услуг по Договору." })],
+            spacing: { after: 120 },
+            indent: { left: 1080 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "5.4.2. В одностороннем внесудебном порядке отказаться от исполнения настоящего договора в случаях:" })],
+            spacing: { after: 120 },
+            indent: { left: 1080 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "- несвоевременной оплаты услуг Исполнителя;" })],
+            spacing: { after: 60 },
+            indent: { left: 1440 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "- нарушения сроков подписания и предоставления Актов выполненных работ (оказанных услуг)." })],
+            spacing: { after: 120 },
+            indent: { left: 1440 }
+          }),
+          
+          new Paragraph({
+            children: [new TextRun({ text: "5.4.3. Временно прекратить предоставление Услуг Заказчику в случае:" })],
+            spacing: { after: 120 },
+            indent: { left: 1080 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "- если Заказчик частично либо полностью не выполняет условия настоящего договора – на период до устранения условий ненадлежащего исполнения договора;" })],
+            spacing: { after: 60 },
+            indent: { left: 1440 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "- если Заказчик допустил просрочку в оплате за оказанные Услуги – на период до полной оплаты Услуг Исполнителя." })],
+            spacing: { after: 120 },
+            indent: { left: 1440 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "5.4.4. Оказывать услуги, предусмотренные данным Договором, как своими силами, так и с привлечением третьих лиц." })],
+            spacing: { after: 200 },
+            indent: { left: 1080 }
+          }),
+
+          new Paragraph({
+            children: [new TextRun({ text: "6. ОТВЕТСТВЕННОСТЬ СТОРОН", bold: true, size: 28 })],
             alignment: AlignmentType.CENTER,
             spacing: { before: 200, after: 200 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "6.1. В случае невыполнения Заказчиком своих договорных обязательств по оплате, работы по настоящему договору могут быть приостановлены до момента оплаты.", size: 28 })],
+            children: [new TextRun({ text: "6.1. За неисполнение или ненадлежащее исполнение своих обязательств по настоящему Договору Стороны несут ответственность в соответствии с действующим законодательством Республики Беларусь и настоящим Договором." })],
             spacing: { after: 120 },
             indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "6.2. При задержке сроков оплаты Заказчиком, оговоренных в настоящем Договоре, Исполнитель имеет право потребовать от Заказчика уплаты пени в размере 0,1% от неоплаченной в срок суммы за каждый день просрочки.", size: 28 })],
+            children: [new TextRun({ text: "6.2. Исполнитель самостоятельно несет полную ответственность за несоответствие информации, переданной Заказчику, согласно действующему законодательству Республики Беларусь." })],
             spacing: { after: 120 },
             indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "6.3. При задержке сроков сдачи работ по вине Исполнителя, последний оплачивает Заказчику пеню в размере 0,1% от суммы оплаченной Заказчиком за каждый день просрочки.", size: 28 })],
+            children: [new TextRun({ text: "6.3. Заказчик самостоятельно несет полную ответственность за несоответствие информации, переданной Исполнителю, согласно действующему законодательству Республики Беларусь." })],
             spacing: { after: 120 },
             indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "6.4. При расторжении договора по инициативе Заказчика, последний оплачивает стоимость выполненных работ на момент расторжения договора.", size: 28 })],
+            children: [new TextRun({ text: "6.4. Заказчик предупрежден о том, что использование не принадлежащих ему зарегистрированных товарных знаков, логотипов, наименований, слоганов, изображений, фотографий является нарушением законодательства Республики Беларусь." })],
             spacing: { after: 120 },
             indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "6.5. При возникновении споров по настоящему договору стороны примут все меры к их разрешению путем переговоров. При не достижении договоренности, споры рассматриваются в установленном законодательством Республики Беларусь порядке.", size: 28 })],
-            spacing: { after: 400 },
+            children: [new TextRun({ text: "6.5. Стороны освобождаются от ответственности за частичное или полное неисполнение обязательств по настоящему Договору, если это неисполнение явилось следствием обстоятельств непреодолимой силы, а именно: пожар, наводнение, землетрясение, военные действия и другие обстоятельства, которые невозможно предугадать и предотвратить, при условии, что данные обстоятельства непосредственно повлияли на выполнение условий по настоящему Договору. В этом случае срок выполнения договорных обязательств будет продлен на время действий указанных обстоятельств." })],
+            spacing: { after: 200 },
             indent: { left: 720 }
           }),
 
           new Paragraph({
-            children: [new TextRun({ text: "7. Форс-мажорные обстоятельства.", size: 28 })],
+            children: [new TextRun({ text: "7. ИЗВЕЩЕНИЯ И УВЕДОМЛЕНИЯ", bold: true, size: 28 })],
             alignment: AlignmentType.CENTER,
             spacing: { before: 200, after: 200 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "7.1. Стороны освобождаются от ответственности за частичное или полное неисполнение обязательств по настоящему договору, если неисполнение явилось следствием обстоятельств непреодолимой силы, возникших после заключения договора. К обстоятельствам непреодолимой силы относятся события, на которые сторона не может оказать влияние и за возникновение которых не несет ответственности (например: наводнение, пожары, иные стихийные бедствия). К обстоятельствам, освобождающим сторону от ответственности, относятся также забастовки, правительственные постановления или распоряжения государственных органов, если указанные обстоятельства имеют непосредственное влияние на возможность исполнения сторонами обязательств по договору.", size: 28 })],
+            children: [new TextRun({ text: "7.1. Контактные данные Заказчика, которые Исполнитель использует для коммуникации, уведомления и подтверждения факта оказания услуг, указаны в реквизитах сторон. Исполнитель оставляет за собой право выбора способа коммуникации. Изменения контактных данных Заказчика фиксируются в последующих Дополнительных соглашениях. Об изменении контактных данных Заказчик уведомляет Исполнителя в письменном виде." })],
             spacing: { after: 120 },
             indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "7.2. Сторона, ссылающаяся на такие обстоятельства, обязана в 3-дневный срок в письменной форме информировать другую сторону о наступлении подобных обстоятельств. Если сторона не направит или несвоевременно направит необходимые извещения, то она обязана возместить другой стороне причиненные этим убытки.", size: 28 })],
+            children: [new TextRun({ text: "7.2. Контактные данные Исполнителя, которые Заказчик использует для коммуникации, уведомлений и предоставления документов, указаны в реквизитах сторон." })],
             spacing: { after: 120 },
             indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "7.3. Если обстоятельства непреодолимый силы продолжают действовать более 12 месяцев, то каждая из сторон имеет право расторгнуть настоящий договор.", size: 28 })],
-            spacing: { after: 400 },
+            children: [new TextRun({ text: "7.3. Заказчик безоговорочно соглашается с тем, что вся переписка, документация, извещения и уведомления, полученные на адреса электронной почты, указанные в реквизитах настоящего соглашения, считаются доставленными адресату в надлежащей форме. При этом в случае направления информации (документов) Исполнителем Заказчику посредствам электронной почты, информация (документы) считается полученной Заказчиком в день отправки электронного письма на электронную почту Заказчику, что подтверждается копией Интернет-страницы с отправляемой информацией (документом)." })],
+            spacing: { after: 120 },
+            indent: { left: 720 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "7.4. Стороны обязаны своевременно проверять корреспонденцию, поступающую на их адрес электронной почты." })],
+            spacing: { after: 120 },
+            indent: { left: 720 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "7.5. Настоящим Заказчик констатирует, что безоговорочно признает юридическую силу текстов документов, полученных по каналам связи (электронная почта, мессенджеры) наравне с документами, исполненными в простой письменной форме на бумажном носителе, за исключением случаев, когда оформление документов на бумажном носителе является обязательным в силу требований настоящего договора или законодательства Республики Беларусь." })],
+            spacing: { after: 120 },
+            indent: { left: 720 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "7.6. Претензии относительно недостатков услуг, в том числе по количеству (объему) и качеству, принимаются в течение 5 (пяти) рабочих дней от даты составления Актов выполненных работ (оказанных услуг). В случае непредоставления Заказчиком подписанного Акта либо мотивированного отказа от подписания Акта в течение указанного срока, услуги считаются оказанными надлежащим образом, принятыми в полном объеме и подлежащими оплате, указанной в настоящем акте." })],
+            spacing: { after: 200 },
             indent: { left: 720 }
           }),
 
           new Paragraph({
-            children: [new TextRun({ text: "8. Срок действия договора.", size: 28 })],
+            children: [new TextRun({ text: "8. ПРОЧИЕ УСЛОВИЯ", bold: true, size: 28 })],
             alignment: AlignmentType.CENTER,
             spacing: { before: 200, after: 200 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "8.1. Настоящий договор вступает в силу с момента подписания и действует до исполнения сторонами своих обязательств.", size: 28 })],
+            children: [new TextRun({ text: "8.1. Настоящий Договор составлен в 2-х (двух) экземплярах, по одному для каждой из Сторон. Оба экземпляра имеют одинаковую юридическую силу." })],
             spacing: { after: 120 },
             indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "8.2. Досрочное расторжение договора может иметь место по согласованию сторон, оформленному в письменном виде.", size: 28 })],
+            children: [new TextRun({ text: "8.2. Вопросы, не урегулированные настоящим Договором, регулируются действующим законодательством Республики Беларусь." })],
             spacing: { after: 120 },
             indent: { left: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "8.3. Договор может быть расторгнут в одностороннем порядке спустя месяц после письменного извещения заинтересованной стороны, но не ранее окончания всех обязательств по Договору.", size: 28 })],
-            spacing: { after: 400 },
+            children: [new TextRun({ text: "8.3. В случае возникновения споров и разногласий, Стороны обязаны приложить все усилия, чтобы устранить их путем переговоров. При невозможности решить спорные вопросы путем переговоров Стороны обращаются в Экономический суд г. Минска." })],
+            spacing: { after: 120 },
+            indent: { left: 720 }
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: "8.4. Настоящий Договор может быть изменен и/или дополнен только документом, составленным в письменной форме, подписанным Сторонами и скрепленным их печатями." })],
+            spacing: { after: 200 },
             indent: { left: 720 }
           }),
 
           new Paragraph({
-            children: [new TextRun({ text: "9. Дополнительные условия.", size: 28 })],
-            alignment: AlignmentType.CENTER,
-            spacing: { before: 200, after: 200 }
-          }),
-          new Paragraph({
-            children: [new TextRun({ text: "9.1. Исполнитель вправе привлечь к выполнению отдельных видов работ третьи организации.", size: 28 })],
-            spacing: { after: 120 },
-            indent: { left: 720 }
-          }),
-          new Paragraph({
-            children: [new TextRun({ text: "9.2. Исполнитель отвечает перед Заказчиком за неисполнение/не должное исполнение работ третьими лицами.", size: 28 })],
-            spacing: { after: 400 },
-            indent: { left: 720 }
-          }),
-
-          new Paragraph({
-            children: [new TextRun({ text: "10. Юридические адреса и реквизиты сторон", size: 28 })],
+            children: [new TextRun({ text: "9. РЕКВИЗИТЫ И ПОДПИСИ СТОРОН", bold: true, size: 28 })],
             alignment: AlignmentType.CENTER,
             spacing: { before: 200, after: 200 }
           }),
@@ -412,34 +486,39 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
                   new TableCell({
                     width: { size: 50, type: WidthType.PERCENTAGE },
                     children: [
-                      new Paragraph({ children: [new TextRun({ text: "Исполнитель:", underline: { type: "single" }, size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: `${executor}`, bold: true, size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: `УНП ${unp}`, size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: `Адрес: ${address}`, size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: `Паспорт: ${passport}`, size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: `Р/С ${bankAccount}`, size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: `в ${bankName}`, size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: `код ${bankCode}`, size: 24 })] }),
+                      new Paragraph({ children: [new TextRun({ text: "Заказчик:", bold: true })] }),
+                      new Paragraph({ children: [new TextRun({ text: "ООО «Бутик-Инвест»", bold: true })] }),
+                      new Paragraph({ children: [new TextRun({ text: "231337, Республика Беларусь," })] }),
+                      new Paragraph({ children: [new TextRun({ text: "Гродненская обл., Ивьевский район," })] }),
+                      new Paragraph({ children: [new TextRun({ text: "г. Ивье, ул. Энгельса 1, пом. 1 (Нежилое помещение)" })] }),
+                      new Paragraph({ children: [new TextRun({ text: "УНП 592024719" })] }),
+                      new Paragraph({ children: [new TextRun({ text: "Банковские реквизиты:" })] }),
+                      new Paragraph({ children: [new TextRun({ text: "р/c BY69BAPB30129796500500000000" })] }),
+                      new Paragraph({ children: [new TextRun({ text: "в ОАО «Белагропромбанк», г. Минск, пр-т Жукова, 3" })] }),
+                      new Paragraph({ children: [new TextRun({ text: "код банка BAPBBY2X" })] }),
+                      new Paragraph({ children: [new TextRun({ text: "обмен данными: telegram: @kasper_ola" })] }),
                       new Paragraph({ children: [new TextRun({ text: " " })] }),
                       new Paragraph({ children: [new TextRun({ text: " " })] }),
-                      new Paragraph({ children: [new TextRun({ text: `_________________ / ${initials} /` })] }),
+                      new Paragraph({ children: [new TextRun({ text: "______________________ О.Ю.Каспер" })] }),
                     ],
                   }),
                   new TableCell({
                     width: { size: 50, type: WidthType.PERCENTAGE },
                     children: [
-                      new Paragraph({ children: [new TextRun({ text: "Заказчик:", underline: { type: "single" }, size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: "Общество с ограниченной Ответственностью", bold: true, size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: "«Бутик-Инвест»", bold: true, size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: "УНП 592024719", size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: "231337, Гродненская обл.,", size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: "Ивьевский район, г. Ивье, ул.", size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: "Энгельса, 1, пом. 1", size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: "Р/С BY69BAPB30129796500500000000", size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: "В ОАО «Белагропромбанк», код банка BAPBBY2X", size: 24 })] }),
+                      new Paragraph({ children: [new TextRun({ text: "Исполнитель:", bold: true })] }),
+                      new Paragraph({ children: [new TextRun({ text: `ФИО: ${executor}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: `Адрес: ${address}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: `Паспорт: ${passport}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: `УНП: ${unp}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: `Р/С: ${bankAccount}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: `Банк: ${bankName}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: `Код Банка: ${bankCode}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: "обмен данными:" })] }),
                       new Paragraph({ children: [new TextRun({ text: " " })] }),
                       new Paragraph({ children: [new TextRun({ text: " " })] }),
-                      new Paragraph({ children: [new TextRun({ text: "___________________ Каспер О.Ю." })] }),
+                      new Paragraph({ children: [new TextRun({ text: " " })] }),
+                      new Paragraph({ children: [new TextRun({ text: " " })] }),
+                      new Paragraph({ children: [new TextRun({ text: `______________________ ${initials}` })] }),
                     ],
                   }),
                 ],
@@ -448,13 +527,13 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
           }),
 
           new Paragraph({
-            children: [new TextRun({ text: "Акт сдачи-приемки оказанных услуг", bold: true, size: 24 })],
+            children: [new TextRun({ text: "АКТ ВЫПОЛНЕННЫХ РАБОТ", bold: true, size: 28 })],
             alignment: AlignmentType.CENTER,
             pageBreakBefore: true,
             spacing: { before: 200 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: `к договору возмездного оказания услуг №${contractNumber} от ${date} г.`, size: 24 })],
+            children: [new TextRun({ text: `к Договору № ${contractNumber} от ${date} г.` })],
             alignment: AlignmentType.CENTER,
             spacing: { after: 400 }
           }),
@@ -467,53 +546,89 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
                 },
             ],
             children: [
-              new TextRun({ text: `${date} г.`, size: 24 }),
+              new TextRun({ text: `Место составления: г. Минск` }),
               new TextRun("\t"),
-              new TextRun({ text: `г. ${city}`, size: 24 })
+              new TextRun({ text: `Дата составления: ${actDate}` })
             ],
             spacing: { after: 400 }
           }),
           
           new Paragraph({
             children: [
-              new TextRun({ text: `${executor}`, bold: true, size: 24 }),
-              new TextRun({ text: `, именуемая в дальнейшем «Исполнитель», УНП: `, size: 24 }),
-              new TextRun({ text: `${unp}`, bold: true, size: 24 }),
-              new TextRun({ text: ` действующий как самозанятая с уплатой налога на профессиональный доход, проживающий по адресу: `, size: 24 }),
-              new TextRun({ text: `${address}`, bold: true, size: 24 }),
-              new TextRun({ text: ` с одной стороны, и Общество с ограниченной ответственностью «Бутик-Инвест», УНП 592024719 именуемое в дальнейшем «Заказчик», в лице начальника отдела маркетинга Каспер Ольги Юрьевны, действует на основании Доверенности от 01.10.2025 № 54, именуемое далее «Заказчик», составили настоящий акт о нижеследующем:`, size: 24 }),
+              new TextRun({ text: `${executor}`, bold: true }),
+              new TextRun(`, именуемый в дальнейшем «Исполнитель», УНП: `),
+              new TextRun({ text: `${unp}`, bold: true }),
+              new TextRun(` действующий как самозанятый с уплатой налога на профессиональный доход, проживающий по адресу: `),
+              new TextRun({ text: `${address}`, bold: true }),
+              new TextRun(`, с одной стороны, и `),
+              new TextRun({ text: `ООО «Бутик-Инвест»`, bold: true }),
+              new TextRun(`, именуемое в дальнейшем «Заказчик», в лице начальника отдела маркетинга Каспер Ольги Юрьевны, действующего на основании Доверенности от 01.10.2025 № 54, с другой стороны, а вместе именуемые «Стороны», составили настоящий Акт к договору № ${contractNumber} от ${date} г. о нижеследующем:`),
             ],
             spacing: { after: 400 },
             indent: { firstLine: 720 }
           }),
           
           new Paragraph({
-            children: [new TextRun({ text: `Исполнитель оказал услуги размещение рекламной информации о ООО «Бутик-Инвест», через сеть Интернет в аккаунте в социальной сети Instagram (Инстаграм) ссылка ${instagram}`, size: 24 })],
+            children: [new TextRun({ text: `1. Исполнитель по заданию Заказчика выполнил в полном объеме следующие услуги:` })],
             spacing: { after: 200 },
             indent: { firstLine: 720 }
           }),
+
+          new Table({
+            width: { size: 100, type: WidthType.PERCENTAGE },
+            borders: {
+                top: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
+                bottom: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
+                left: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
+                right: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
+                insideHorizontal: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
+                insideVertical: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
+            },
+            rows: [
+              new TableRow({
+                children: [
+                  new TableCell({
+                    width: { size: 70, type: WidthType.PERCENTAGE },
+                    children: [new Paragraph({ children: [new TextRun({ text: "Наименование услуг:", bold: true })] })],
+                  }),
+                  new TableCell({
+                    width: { size: 30, type: WidthType.PERCENTAGE },
+                    children: [new Paragraph({ children: [new TextRun({ text: "Стоимость услуг", bold: true })] })],
+                  }),
+                ]
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    width: { size: 70, type: WidthType.PERCENTAGE },
+                    children: [new Paragraph({ children: [new TextRun({ text: "Комплекс маркетинговых и рекламных услуг и услуг по съемке и монтажу видео-материалов." })] })],
+                  }),
+                  new TableCell({
+                    width: { size: 30, type: WidthType.PERCENTAGE },
+                    children: [new Paragraph({ children: [new TextRun({ text: `${cost}` })] })],
+                  }),
+                ]
+              })
+            ]
+          }),
+
           new Paragraph({
             children: [
-              new TextRun({ text: `Стоимость оказанных услуг составила `, size: 24 }),
-              new TextRun({ text: `${cost} белорусских рублей 00 копеек.`, bold: true, size: 24 })
+              new TextRun({ text: `2. Стоимость оказания услуг, указанных в п.1 составляет ${cost} белорусских рублей.` })
             ],
-            spacing: { after: 200 },
+            spacing: { before: 200, after: 200 },
             indent: { firstLine: 720 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: "Услуги оказаны надлежащим образом в соответствии с условиями договора и подлежат оплате в полном объеме.", size: 24 })],
-            spacing: { after: 200 },
-            indent: { firstLine: 720 }
-          }),
-          new Paragraph({
-            children: [new TextRun({ text: "Стороны не имеют претензий к качеству оказанных услуг.", size: 24 })],
-            spacing: { after: 200 },
-            indent: { firstLine: 720 }
-          }),
-          new Paragraph({
-            children: [new TextRun({ text: "Настоящий акт сдачи-приемки оказанных услуг является основанием для расчетов и оплаты Исполнителю вознаграждения.", size: 24 })],
+            children: [new TextRun({ text: "3. Оплата производится путем перечисления Заказчиком денежных средств на расчетный счет Исполнителя. Моментом оплаты считается день поступления денежных средств на расчетный счет Исполнителя." })],
             spacing: { after: 400 },
             indent: { firstLine: 720 }
+          }),
+
+          new Paragraph({
+            children: [new TextRun({ text: "РЕКВИЗИТЫ И ПОДПИСИ СТОРОН:", bold: true, size: 28 })],
+            alignment: AlignmentType.CENTER,
+            spacing: { before: 200, after: 200 }
           }),
 
           new Table({
@@ -532,28 +647,39 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
                   new TableCell({
                     width: { size: 50, type: WidthType.PERCENTAGE },
                     children: [
-                      new Paragraph({ children: [new TextRun({ text: "Исполнитель:", underline: { type: "single" }, size: 24 })] }),
+                      new Paragraph({ children: [new TextRun({ text: "Заказчик:", bold: true })] }),
+                      new Paragraph({ children: [new TextRun({ text: "ООО «Бутик-Инвест»", bold: true })] }),
+                      new Paragraph({ children: [new TextRun({ text: "231337, Республика Беларусь," })] }),
+                      new Paragraph({ children: [new TextRun({ text: "Гродненская обл., Ивьевский район," })] }),
+                      new Paragraph({ children: [new TextRun({ text: "г. Ивье, ул. Энгельса 1, пом. 1 (Нежилое помещение)" })] }),
+                      new Paragraph({ children: [new TextRun({ text: "УНП 592024719" })] }),
+                      new Paragraph({ children: [new TextRun({ text: "Банковские реквизиты:" })] }),
+                      new Paragraph({ children: [new TextRun({ text: "р/c BY69BAPB30129796500500000000" })] }),
+                      new Paragraph({ children: [new TextRun({ text: "в ОАО «Белагропромбанк», г. Минск, пр-т Жукова, 3" })] }),
+                      new Paragraph({ children: [new TextRun({ text: "код банка BAPBBY2X" })] }),
+                      new Paragraph({ children: [new TextRun({ text: "обмен данными: telegram: @kasper_ola" })] }),
                       new Paragraph({ children: [new TextRun({ text: " " })] }),
                       new Paragraph({ children: [new TextRun({ text: " " })] }),
-                      new Paragraph({ children: [new TextRun({ text: " " })] }),
-                      new Paragraph({ children: [new TextRun({ text: `_________________ / ${initials} /` })] }),
+                      new Paragraph({ children: [new TextRun({ text: "______________________ О.Ю.Каспер" })] }),
                     ],
                   }),
                   new TableCell({
                     width: { size: 50, type: WidthType.PERCENTAGE },
                     children: [
-                      new Paragraph({ children: [new TextRun({ text: "Заказчик:", underline: { type: "single" }, size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: "Общество с ограниченной Ответственностью", bold: true, size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: "«Бутик-Инвест»", bold: true, size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: "УНП 592024719", size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: "231337, Гродненская обл.,", size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: "Ивьевский район, г. Ивье, ул.", size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: "Энгельса, 1, пом. 1", size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: "Р/С BY69BAPB30129796500500000000", size: 24 })] }),
-                      new Paragraph({ children: [new TextRun({ text: "В ОАО «Белагропромбанк», код банка BAPBBY2X", size: 24 })] }),
+                      new Paragraph({ children: [new TextRun({ text: "Исполнитель:", bold: true })] }),
+                      new Paragraph({ children: [new TextRun({ text: `ФИО: ${executor}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: `Адрес: ${address}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: `Паспорт: ${passport}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: `УНП: ${unp}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: `Р/С: ${bankAccount}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: `Банк: ${bankName}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: `Код Банка: ${bankCode}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: "обмен данными:" })] }),
                       new Paragraph({ children: [new TextRun({ text: " " })] }),
                       new Paragraph({ children: [new TextRun({ text: " " })] }),
-                      new Paragraph({ children: [new TextRun({ text: "___________________ Каспер О.Ю." })] }),
+                      new Paragraph({ children: [new TextRun({ text: " " })] }),
+                      new Paragraph({ children: [new TextRun({ text: " " })] }),
+                      new Paragraph({ children: [new TextRun({ text: `______________________ ${initials}` })] }),
                     ],
                   }),
                 ],
@@ -570,7 +696,7 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
     
     // Сохраняем в Google Таблицу
     saveBloggerToSheets({
-      executor, city, unp, passport, address, bankAccount, bankName, bankCode, instagram
+      executor, unp, passport, address, bankAccount, bankName, bankCode
     });
   });
 });
