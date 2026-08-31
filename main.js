@@ -750,7 +750,7 @@ document.getElementById('btn-pdf')?.addEventListener('click', () => {
 
   const opt = {
     margin:       15,
-    filename:     `Договор_№${contractNumber.replace(/\\//g, '_')}_${executor}.pdf`,
+    filename:     `Договор_№${contractNumber.replace(/\//g, '_')}_${executor}.pdf`,
     image:        { type: 'jpeg', quality: 0.98 },
     html2canvas:  { scale: 2 },
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
