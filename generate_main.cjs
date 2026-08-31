@@ -1,95 +1,12 @@
-import html2pdf from "html2pdf.js";
-import { generateContractHTML } from "./generateContractHTML.js";
-import { Document, Packer, Paragraph, TextRun, AlignmentType, HeadingLevel, Table, TableRow, TableCell, WidthType, BorderStyle, TabStopType, TabStopPosition } from "docx";
-import { saveAs } from "file-saver";
+const fs = require('fs');
 
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJnmChTT2x_6RtA9XHN_wsrxuhwjwj1FtQ5S7r9KpaSNhNYHXDybpUvLgLdKKBSBU2iQ/exec';
+const mainJsPath = 'main.js';
+let content = fs.readFileSync(mainJsPath, 'utf8');
 
-let bloggers = [];
-
-async function loadBloggers() {
-  try {
-    const response = await fetch(GOOGLE_SCRIPT_URL);
-    bloggers = await response.json();
-  } catch (error) {
-    console.error('Ошибка загрузки блогеров:', error);
-  }
-}
-loadBloggers();
-
-const executorInput = document.getElementById('executor');
-const autocompleteList = document.getElementById('autocomplete-list');
-
-executorInput.addEventListener('input', function() {
-  const val = this.value;
-  autocompleteList.innerHTML = '';
-  if (!val) {
-    autocompleteList.style.display = 'none';
-    return;
-  }
-  
-  let matchCount = 0;
-  for (let i = 0; i < bloggers.length; i++) {
-    const b = bloggers[i];
-    if (b.executor.toLowerCase().includes(val.toLowerCase())) {
-      const item = document.createElement('div');
-      item.className = 'autocomplete-item';
-      item.innerHTML = `<strong>${b.executor}</strong> (${b.city})`;
-      
-      item.addEventListener('click', function() {
-        executorInput.value = b.executor;
-        document.getElementById('unp').value = b.unp || '';
-        document.getElementById('passport').value = b.passport || '';
-        document.getElementById('address').value = b.address || '';
-        document.getElementById('bank-account').value = b.bankAccount || '';
-        document.getElementById('bank-name').value = b.bankName || '';
-        document.getElementById('bank-code').value = b.bankCode || '';
-        
-        autocompleteList.style.display = 'none';
-      });
-      autocompleteList.appendChild(item);
-      matchCount++;
-    }
-  }
-  autocompleteList.style.display = matchCount > 0 ? 'block' : 'none';
-});
-
-document.addEventListener('click', function(e) {
-  if (e.target !== executorInput && e.target !== autocompleteList) {
-    autocompleteList.style.display = 'none';
-  }
-});
-
-
-document.getElementById('contract-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  
-  const contractNumber = document.getElementById('contract-number').value;
-  const date = document.getElementById('date').value;
-  const executor = document.getElementById('executor').value;
-  const unp = document.getElementById('unp').value;
-  const passport = document.getElementById('passport').value;
-  const address = document.getElementById('address').value;
-  const cost = document.getElementById('cost').value;
-  const startDate = document.getElementById('start-date').value;
-  const endDate = document.getElementById('end-date').value;
-  const actDate = document.getElementById('act-date').value;
-  const bankAccount = document.getElementById('bank-account').value;
-  const bankName = document.getElementById('bank-name').value;
-  const bankCode = document.getElementById('bank-code').value;
-
-  const executorParts = executor.trim().split(/\s+/);
-  let initials = executorParts[0];
-  if (executorParts.length > 1) {
-    initials += ' ' + executorParts[1][0] + '.';
-    if (executorParts.length > 2) {
-      initials += executorParts[2][0] + '.';
-    }
-  }
-
-    const doc = new Document({
+// The big doc section
+const newDocContent = `  const doc = new Document({
     creator: "Contract Generator",
-    title: `Договор № ${contractNumber}`,
+    title: \`Договор № \${contractNumber}\`,
     styles: {
         default: {
             document: {
@@ -117,7 +34,7 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
         },
         children: [
           new Paragraph({
-            children: [new TextRun({ text: `Договор № ${contractNumber}`, bold: true, size: 28 })],
+            children: [new TextRun({ text: \`Договор № \${contractNumber}\`, bold: true, size: 28 })],
             alignment: AlignmentType.CENTER,
             spacing: { after: 120 }
           }),
@@ -130,23 +47,23 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
                 },
             ],
             children: [
-              new TextRun({ text: `Место заключения: г.Минск`, size: 24 }),
-              new TextRun("\t"),
-              new TextRun({ text: `Дата заключения: ${date} г.`, size: 24 })
+              new TextRun({ text: \`Место заключения: г.Минск\`, size: 24 }),
+              new TextRun("\\t"),
+              new TextRun({ text: \`Дата заключения: \${date} г.\`, size: 24 })
             ],
             spacing: { after: 400 }
           }),
 
           new Paragraph({
             children: [
-              new TextRun({ text: `${executor}`, bold: true }),
-              new TextRun(`, именуемый в дальнейшем «Исполнитель», УНП: `),
-              new TextRun({ text: `${unp}`, bold: true }),
-              new TextRun(` действующий как самозанятый с уплатой налога на профессиональный доход, проживающий по адресу: `),
-              new TextRun({ text: `${address}`, bold: true }),
-              new TextRun(` с одной стороны, и `),
-              new TextRun({ text: `ООО «Бутик-Инвест»`, bold: true }),
-              new TextRun(`, именуемое в дальнейшем «Заказчик», в лице начальника отдела маркетинга Каспер Ольги Юрьевны, действующего на основании Доверенности от 01.10.2025 № 54, с другой стороны, а вместе именуемые «Стороны», заключили настоящий Договор о нижеследующем:`),
+              new TextRun({ text: \`\${executor}\`, bold: true }),
+              new TextRun(\`, именуемый в дальнейшем «Исполнитель», УНП: \`),
+              new TextRun({ text: \`\${unp}\`, bold: true }),
+              new TextRun(\` действующий как самозанятый с уплатой налога на профессиональный доход, проживающий по адресу: \`),
+              new TextRun({ text: \`\${address}\`, bold: true }),
+              new TextRun(\` с одной стороны, и \`),
+              new TextRun({ text: \`ООО «Бутик-Инвест»\`, bold: true }),
+              new TextRun(\`, именуемое в дальнейшем «Заказчик», в лице начальника отдела маркетинга Каспер Ольги Юрьевны, действующего на основании Доверенности от 01.10.2025 № 54, с другой стороны, а вместе именуемые «Стороны», заключили настоящий Договор о нижеследующем:\`),
             ],
             spacing: { after: 200 },
             indent: { firstLine: 720 }
@@ -212,7 +129,7 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
           }),
           new Paragraph({
             children: [
-              new TextRun({ text: `3.1. Стоимость услуг составляет ${cost} белорусских рублей в период с ${startDate} до ${endDate}.` })
+              new TextRun({ text: \`3.1. Стоимость услуг составляет \${cost} белорусских рублей в период с \${startDate} до \${endDate}.\` })
             ],
             spacing: { after: 120 },
             indent: { left: 720 }
@@ -508,19 +425,19 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
                     width: { size: 50, type: WidthType.PERCENTAGE },
                     children: [
                       new Paragraph({ children: [new TextRun({ text: "Исполнитель:", bold: true })] }),
-                      new Paragraph({ children: [new TextRun({ text: `ФИО: ${executor}` })] }),
-                      new Paragraph({ children: [new TextRun({ text: `Адрес: ${address}` })] }),
-                      new Paragraph({ children: [new TextRun({ text: `Паспорт: ${passport}` })] }),
-                      new Paragraph({ children: [new TextRun({ text: `УНП: ${unp}` })] }),
-                      new Paragraph({ children: [new TextRun({ text: `Р/С: ${bankAccount}` })] }),
-                      new Paragraph({ children: [new TextRun({ text: `Банк: ${bankName}` })] }),
-                      new Paragraph({ children: [new TextRun({ text: `Код Банка: ${bankCode}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: \`ФИО: \${executor}\` })] }),
+                      new Paragraph({ children: [new TextRun({ text: \`Адрес: \${address}\` })] }),
+                      new Paragraph({ children: [new TextRun({ text: \`Паспорт: \${passport}\` })] }),
+                      new Paragraph({ children: [new TextRun({ text: \`УНП: \${unp}\` })] }),
+                      new Paragraph({ children: [new TextRun({ text: \`Р/С: \${bankAccount}\` })] }),
+                      new Paragraph({ children: [new TextRun({ text: \`Банк: \${bankName}\` })] }),
+                      new Paragraph({ children: [new TextRun({ text: \`Код Банка: \${bankCode}\` })] }),
                       new Paragraph({ children: [new TextRun({ text: "обмен данными:" })] }),
                       new Paragraph({ children: [new TextRun({ text: " " })] }),
                       new Paragraph({ children: [new TextRun({ text: " " })] }),
                       new Paragraph({ children: [new TextRun({ text: " " })] }),
                       new Paragraph({ children: [new TextRun({ text: " " })] }),
-                      new Paragraph({ children: [new TextRun({ text: `______________________ ${initials}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: \`______________________ \${initials}\` })] }),
                     ],
                   }),
                 ],
@@ -535,7 +452,7 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
             spacing: { before: 200 }
           }),
           new Paragraph({
-            children: [new TextRun({ text: `к Договору № ${contractNumber} от ${date} г.` })],
+            children: [new TextRun({ text: \`к Договору № \${contractNumber} от \${date} г.\` })],
             alignment: AlignmentType.CENTER,
             spacing: { after: 400 }
           }),
@@ -548,30 +465,30 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
                 },
             ],
             children: [
-              new TextRun({ text: `Место составления: г. Минск` }),
-              new TextRun("\t"),
-              new TextRun({ text: `Дата составления: ${actDate}` })
+              new TextRun({ text: \`Место составления: г. Минск\` }),
+              new TextRun("\\t"),
+              new TextRun({ text: \`Дата составления: \${actDate}\` })
             ],
             spacing: { after: 400 }
           }),
           
           new Paragraph({
             children: [
-              new TextRun({ text: `${executor}`, bold: true }),
-              new TextRun(`, именуемый в дальнейшем «Исполнитель», УНП: `),
-              new TextRun({ text: `${unp}`, bold: true }),
-              new TextRun(` действующий как самозанятый с уплатой налога на профессиональный доход, проживающий по адресу: `),
-              new TextRun({ text: `${address}`, bold: true }),
-              new TextRun(`, с одной стороны, и `),
-              new TextRun({ text: `ООО «Бутик-Инвест»`, bold: true }),
-              new TextRun(`, именуемое в дальнейшем «Заказчик», в лице начальника отдела маркетинга Каспер Ольги Юрьевны, действующего на основании Доверенности от 01.10.2025 № 54, с другой стороны, а вместе именуемые «Стороны», составили настоящий Акт к договору № ${contractNumber} от ${date} г. о нижеследующем:`),
+              new TextRun({ text: \`\${executor}\`, bold: true }),
+              new TextRun(\`, именуемый в дальнейшем «Исполнитель», УНП: \`),
+              new TextRun({ text: \`\${unp}\`, bold: true }),
+              new TextRun(\` действующий как самозанятый с уплатой налога на профессиональный доход, проживающий по адресу: \`),
+              new TextRun({ text: \`\${address}\`, bold: true }),
+              new TextRun(\`, с одной стороны, и \`),
+              new TextRun({ text: \`ООО «Бутик-Инвест»\`, bold: true }),
+              new TextRun(\`, именуемое в дальнейшем «Заказчик», в лице начальника отдела маркетинга Каспер Ольги Юрьевны, действующего на основании Доверенности от 01.10.2025 № 54, с другой стороны, а вместе именуемые «Стороны», составили настоящий Акт к договору № \${contractNumber} от \${date} г. о нижеследующем:\`),
             ],
             spacing: { after: 400 },
             indent: { firstLine: 720 }
           }),
           
           new Paragraph({
-            children: [new TextRun({ text: `1. Исполнитель по заданию Заказчика выполнил в полном объеме следующие услуги:` })],
+            children: [new TextRun({ text: \`1. Исполнитель по заданию Заказчика выполнил в полном объеме следующие услуги:\` })],
             spacing: { after: 200 },
             indent: { firstLine: 720 }
           }),
@@ -607,7 +524,7 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
                   }),
                   new TableCell({
                     width: { size: 30, type: WidthType.PERCENTAGE },
-                    children: [new Paragraph({ children: [new TextRun({ text: `${cost}` })] })],
+                    children: [new Paragraph({ children: [new TextRun({ text: \`\${cost}\` })] })],
                   }),
                 ]
               })
@@ -616,7 +533,7 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
 
           new Paragraph({
             children: [
-              new TextRun({ text: `2. Стоимость оказания услуг, указанных в п.1 составляет ${cost} белорусских рублей.` })
+              new TextRun({ text: \`2. Стоимость оказания услуг, указанных в п.1 составляет \${cost} белорусских рублей.\` })
             ],
             spacing: { before: 200, after: 200 },
             indent: { firstLine: 720 }
@@ -669,19 +586,19 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
                     width: { size: 50, type: WidthType.PERCENTAGE },
                     children: [
                       new Paragraph({ children: [new TextRun({ text: "Исполнитель:", bold: true })] }),
-                      new Paragraph({ children: [new TextRun({ text: `ФИО: ${executor}` })] }),
-                      new Paragraph({ children: [new TextRun({ text: `Адрес: ${address}` })] }),
-                      new Paragraph({ children: [new TextRun({ text: `Паспорт: ${passport}` })] }),
-                      new Paragraph({ children: [new TextRun({ text: `УНП: ${unp}` })] }),
-                      new Paragraph({ children: [new TextRun({ text: `Р/С: ${bankAccount}` })] }),
-                      new Paragraph({ children: [new TextRun({ text: `Банк: ${bankName}` })] }),
-                      new Paragraph({ children: [new TextRun({ text: `Код Банка: ${bankCode}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: \`ФИО: \${executor}\` })] }),
+                      new Paragraph({ children: [new TextRun({ text: \`Адрес: \${address}\` })] }),
+                      new Paragraph({ children: [new TextRun({ text: \`Паспорт: \${passport}\` })] }),
+                      new Paragraph({ children: [new TextRun({ text: \`УНП: \${unp}\` })] }),
+                      new Paragraph({ children: [new TextRun({ text: \`Р/С: \${bankAccount}\` })] }),
+                      new Paragraph({ children: [new TextRun({ text: \`Банк: \${bankName}\` })] }),
+                      new Paragraph({ children: [new TextRun({ text: \`Код Банка: \${bankCode}\` })] }),
                       new Paragraph({ children: [new TextRun({ text: "обмен данными:" })] }),
                       new Paragraph({ children: [new TextRun({ text: " " })] }),
                       new Paragraph({ children: [new TextRun({ text: " " })] }),
                       new Paragraph({ children: [new TextRun({ text: " " })] }),
                       new Paragraph({ children: [new TextRun({ text: " " })] }),
-                      new Paragraph({ children: [new TextRun({ text: `______________________ ${initials}` })] }),
+                      new Paragraph({ children: [new TextRun({ text: \`______________________ \${initials}\` })] }),
                     ],
                   }),
                 ],
@@ -691,74 +608,8 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
         ]
       }
     ]
-  });
+  });\n\n  Packer.toBlob`;
 
-  Packer.toBlob(doc).then((blob) => {
-    saveAs(blob, `Договор_№${contractNumber.replace(/\//g, '_')}_${executor}.docx`);
-    
-    // Сохраняем в Google Таблицу
-    saveBloggerToSheets({
-      executor, unp, passport, address, bankAccount, bankName, bankCode
-    });
-  });
-});
+content = content.replace(/const doc = new Document\(\{[\s\S]*?\}\);\s*Packer\.toBlob/g, newDocContent);
 
-function saveBloggerToSheets(data) {
-  fetch(GOOGLE_SCRIPT_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'text/plain;charset=utf-8',
-    },
-    body: JSON.stringify(data)
-  })
-  .then(response => response.json())
-  .then(res => {
-    if (res.status === 'success') {
-      bloggers.push(data); // обновляем локально чтобы сразу было доступно в поиске
-    }
-  })
-  .catch(err => console.error('Ошибка сохранения:', err));
-}
-
-
-document.getElementById('btn-pdf')?.addEventListener('click', () => {
-  const contractNumber = document.getElementById('contract-number').value;
-  const date = document.getElementById('date').value;
-  const executor = document.getElementById('executor').value;
-  const unp = document.getElementById('unp').value;
-  const passport = document.getElementById('passport').value;
-  const address = document.getElementById('address').value;
-  const cost = document.getElementById('cost').value;
-  const startDate = document.getElementById('start-date').value;
-  const endDate = document.getElementById('end-date').value;
-  const actDate = document.getElementById('act-date').value;
-  const bankAccount = document.getElementById('bank-account').value;
-  const bankName = document.getElementById('bank-name').value;
-  const bankCode = document.getElementById('bank-code').value;
-
-  if (!contractNumber || !executor) {
-    alert('Пожалуйста, заполните основные поля формы');
-    return;
-  }
-
-  const htmlString = generateContractHTML({
-    contractNumber, date, executor, unp, passport, address, cost, startDate, endDate, actDate, bankAccount, bankName, bankCode
-  });
-
-  const wrapper = document.createElement('div');
-  wrapper.innerHTML = htmlString;
-
-  const opt = {
-    margin:       15,
-    filename:     `Договор_№${contractNumber.replace(/\\//g, '_')}_${executor}.pdf`,
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2 },
-    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  };
-
-  html2pdf().set(opt).from(wrapper).save();
-  
-  saveBloggerToSheets({
-    executor, unp, passport, address, bankAccount, bankName, bankCode
-  });
-});
+fs.writeFileSync(mainJsPath, content);

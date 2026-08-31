@@ -1,0 +1,38 @@
+const doc = new Document({
+    creator: "Contract Generator",
+    title: `Договор № ${contractNumber}`,
+    styles: {
+        default: {
+            document: {
+                run: {
+                    font: "Times New Roman",
+                    size: 24, // 12pt (half-points)
+                },
+                paragraph: {
+                    alignment: AlignmentType.JUSTIFIED,
+                }
+            }
+        }
+    },
+    sections: [
+      {
+        properties: {
+            page: {
+                margin: {
+                    top: 1134, // 2 cm
+                    right: 850, // 1.5 cm
+                    bottom: 1134,
+                    left: 1701, // 3 cm
+                },
+            },
+        },
+        children: [
+          <p><b>`Договор № ${contractNumber}`</b>],
+            alignment: AlignmentType.CENTER,
+            spacing: { after: 120 }
+          }),
+          
+          new Paragraph({
+            tabStops: [
+                {
+                    type: Ta
