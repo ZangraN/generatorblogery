@@ -146,7 +146,7 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
               new TextRun({ text: `${address}`, bold: true }),
               new TextRun(` с одной стороны, и `),
               new TextRun({ text: `ООО «Бутик-Инвест»`, bold: true }),
-              new TextRun(`, именуемое в дальнейшем «Заказчик», в лице начальника отдела маркетинга Каспер Ольги Юрьевны, действующего на основании Доверенности от 01.10.2025 № 54, с другой стороны, а вместе именуемые «Стороны», заключили настоящий Договор о нижеследующем:`),
+              new TextRun(`, именуемое в дальнейшем «Заказчик», в лице начальника отдела маркетинга Каспер Ольги Юрьевны, действующего на основании Доверенности №162 от 14.09.2026, с другой стороны, а вместе именуемые «Стороны», заключили настоящий Договор о нижеследующем:`),
             ],
             spacing: { after: 200 },
             indent: { firstLine: 720 }
@@ -564,7 +564,7 @@ document.getElementById('contract-form').addEventListener('submit', async (e) =>
               new TextRun({ text: `${address}`, bold: true }),
               new TextRun(`, с одной стороны, и `),
               new TextRun({ text: `ООО «Бутик-Инвест»`, bold: true }),
-              new TextRun(`, именуемое в дальнейшем «Заказчик», в лице начальника отдела маркетинга Каспер Ольги Юрьевны, действующего на основании Доверенности от 01.10.2025 № 54, с другой стороны, а вместе именуемые «Стороны», составили настоящий Акт к договору № ${contractNumber} от ${date} г. о нижеследующем:`),
+              new TextRun(`, именуемое в дальнейшем «Заказчик», в лице начальника отдела маркетинга Каспер Ольги Юрьевны, действующего на основании Доверенности №162 от 14.09.2026, с другой стороны, а вместе именуемые «Стороны», составили настоящий Акт к договору № ${contractNumber} от ${date} г. о нижеследующем:`),
             ],
             spacing: { after: 400 },
             indent: { firstLine: 720 }
@@ -753,7 +753,8 @@ document.getElementById('btn-pdf')?.addEventListener('click', () => {
     filename:     `Договор_№${contractNumber.replace(/\//g, '_')}_${executor}.pdf`,
     image:        { type: 'jpeg', quality: 0.98 },
     html2canvas:  { scale: 2 },
-    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak:    { mode: ['css', 'legacy'], avoid: ['p', 'h2', 'table', 'tr', 'td', '.avoid-break'] }
   };
 
   html2pdf().set(opt).from(wrapper).save();

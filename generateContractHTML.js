@@ -11,7 +11,7 @@ export function generateContractHTML({ contractNumber, date, executor, unp, pass
       </div>
 
       <p style="text-align: justify; margin-bottom: 20px; text-indent: 40px;">
-        <b>${executor}</b>, именуемый в дальнейшем «Исполнитель», УНП: <b>${unp}</b> действующий как самозанятый с уплатой налога на профессиональный доход, проживающий по адресу: <b>${address}</b> с одной стороны, и <b>ООО «Бутик-Инвест»</b>, именуемое в дальнейшем «Заказчик», в лице начальника отдела маркетинга Каспер Ольги Юрьевны, действующего на основании Доверенности от 01.10.2025 № 54, с другой стороны, а вместе именуемые «Стороны», заключили настоящий Договор о нижеследующем:
+        <b>${executor}</b>, именуемый в дальнейшем «Исполнитель», УНП: <b>${unp}</b> действующий как самозанятый с уплатой налога на профессиональный доход, проживающий по адресу: <b>${address}</b> с одной стороны, и <b>ООО «Бутик-Инвест»</b>, именуемое в дальнейшем «Заказчик», в лице начальника отдела маркетинга Каспер Ольги Юрьевны, действующего на основании Доверенности №162 от 14.09.2026, с другой стороны, а вместе именуемые «Стороны», заключили настоящий Договор о нижеследующем:
       </p>
 
       <p style="text-indent: 40px; margin-bottom: 10px;"><b>1. ПРЕДМЕТ ДОГОВОРА</b></p>
@@ -51,7 +51,7 @@ export function generateContractHTML({ contractNumber, date, executor, unp, pass
       
       <p style="text-align: center; margin: 40px 0 20px 0;"><b>РЕКВИЗИТЫ И ПОДПИСИ СТОРОН</b></p>
       
-      <table style="width: 100%; border-collapse: collapse;">
+      <table class="avoid-break" style="width: 100%; border-collapse: collapse;">
         <tr>
           <td style="width: 50%; vertical-align: top; padding-right: 20px;">
             <p><b>Заказчик:</b></p>
@@ -79,9 +79,9 @@ export function generateContractHTML({ contractNumber, date, executor, unp, pass
       </table>
 
       <!-- Page break for Act -->
-      <div style="page-break-before: always; margin-top: 60px;"></div>
+      <div class="html2pdf__page-break"></div>
       
-      <h2 style="text-align: center; font-size: 20px; font-weight: bold; margin-bottom: 20px;">АКТ ВЫПОЛНЕННЫХ РАБОТ</h2>
+      <h2 style="text-align: center; font-size: 20px; font-weight: bold; margin-bottom: 20px; margin-top: 40px;">АКТ ВЫПОЛНЕННЫХ РАБОТ</h2>
       <p style="text-align: center; margin-bottom: 30px;">к Договору № ${contractNumber} от ${date} г.</p>
       
       <div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
@@ -90,12 +90,12 @@ export function generateContractHTML({ contractNumber, date, executor, unp, pass
       </div>
 
       <p style="text-align: justify; margin-bottom: 20px; text-indent: 40px;">
-        <b>${executor}</b>, именуемый в дальнейшем «Исполнитель», УНП: <b>${unp}</b> действующий как самозанятый с уплатой налога на профессиональный доход, проживающий по адресу: <b>${address}</b> с одной стороны, и <b>ООО «Бутик-Инвест»</b>, именуемое в дальнейшем «Заказчик», в лице начальника отдела маркетинга Каспер Ольги Юрьевны, действующего на основании Доверенности от 01.10.2025 № 54, с другой стороны, а вместе именуемые «Стороны», составили настоящий Акт к договору № ${contractNumber} от ${date} о нижеследующем:
+        <b>${executor}</b>, именуемый в дальнейшем «Исполнитель», УНП: <b>${unp}</b> действующий как самозанятый с уплатой налога на профессиональный доход, проживающий по адресу: <b>${address}</b> с одной стороны, и <b>ООО «Бутик-Инвест»</b>, именуемое в дальнейшем «Заказчик», в лице начальника отдела маркетинга Каспер Ольги Юрьевны, действующего на основании Доверенности №162 от 14.09.2026, с другой стороны, а вместе именуемые «Стороны», составили настоящий Акт к договору № ${contractNumber} от ${date} о нижеследующем:
       </p>
 
       <p style="text-align: justify; margin-bottom: 20px; text-indent: 40px;">1. Исполнитель по заданию Заказчика выполнил в полном объеме следующие услуги:</p>
       
-      <table style="width: 100%; border-collapse: collapse; border: 1px solid black; margin-bottom: 20px;">
+      <table class="avoid-break" style="width: 100%; border-collapse: collapse; border: 1px solid black; margin-bottom: 20px;">
         <tr>
           <td style="border: 1px solid black; padding: 10px; width: 70%;"><b>Наименование услуг:</b></td>
           <td style="border: 1px solid black; padding: 10px; width: 30%;"><b>Стоимость услуг</b></td>
@@ -106,12 +106,12 @@ export function generateContractHTML({ contractNumber, date, executor, unp, pass
         </tr>
       </table>
 
-      <p style="text-align: justify; margin-bottom: 10px; text-indent: 40px;">2. Стоимость оказания услуг, указанных в п.1 составляет ${cost} белорусских рублей.</p>
-      <p style="text-align: justify; margin-bottom: 40px; text-indent: 40px;">3. Оплата производится путем перечисления Заказчиком денежных средств на расчетный счет Исполнителя. Моментом оплаты считается день поступления денежных средств на расчетный счет Исполнителя.</p>
+      <p class="avoid-break" style="text-align: justify; margin-bottom: 10px; text-indent: 40px;">2. Стоимость оказания услуг, указанных в п.1 составляет ${cost} белорусских рублей.</p>
+      <p class="avoid-break" style="text-align: justify; margin-bottom: 40px; text-indent: 40px;">3. Оплата производится путем перечисления Заказчиком денежных средств на расчетный счет Исполнителя. Моментом оплаты считается день поступления денежных средств на расчетный счет Исполнителя.</p>
       
-      <p style="text-align: center; margin-bottom: 20px;"><b>РЕКВИЗИТЫ И ПОДПИСИ СТОРОН:</b></p>
+      <p class="avoid-break" style="text-align: center; margin-bottom: 20px;"><b>РЕКВИЗИТЫ И ПОДПИСИ СТОРОН:</b></p>
       
-      <table style="width: 100%; border-collapse: collapse;">
+      <table class="avoid-break" style="width: 100%; border-collapse: collapse;">
         <tr>
           <td style="width: 50%; vertical-align: top; padding-right: 20px;">
             <p><b>Заказчик:</b></p>
